@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <script src="https://kit.fontawesome.com/64d58efce2.js" crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="login.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Zestra</title>
+</head>
+
+<body>
+  <div class="container">
+    <div class="brand-logo">Welcome Back <br> To</div>
+    <div class="brand-title">ZESTRA</div>
+    <div class="inputs">
+      <label>EMAIL OR USERNAME</label>
+      <div class="input-field">
+        <i class="fas fa-user"></i>
+        <input type="email" id="email" placeholder="username or email" />
+      </div>
+      <label>PASSWORD</label>
+      <div class="input-field">
+        <i class="fas fa-lock"></i>
+        <input type="password" id="password" placeholder="enter your password " />
+      </div>
+      <button type="submit" onclick="login()">LOGIN</button>
+      <p id="login-message" class="login-message"></p> <!-- Added login message element -->
+    </div>
+    <div><p class="social-text">Or Log in with other platforms</p></div>
+    <!-- <p class="social-text">Or Log in with social platforms</p><br> -->
+    <div class="social-media">
+      <a href="#" class="social-icon">
+        <i class="fab fa-facebook"></i>
+      </a>
+      <a href="#" class="social-icon">
+        <i class="fab fa-google"></i>
+      </a>
+      <a href="#" class="social-icon">
+        <i class="fab fa-apple"></i>
+      </a>
+    </div>
+  </div>
+
+  <script>
+    async function login() {
+      const email = document.getElementById('email').value;
+      const password = document.getElementById('password').value;
+
+      // Perform basic validation, e.g., check if the fields are not empty
+      if (email.trim() === '' || password.trim() === '') {
+        document.getElementById('login-message').textContent = 'Please enter email and password.';
+        return;
+      }
+
+      try {
+        // Send the login data to the server using Fetch API directly to login.php on 000webhost
+        const response = await fetch('login.php', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/x-www-form-urlencoded', // Set the content type to form data
+          },
+          body: `email=${encodeURIComponent(email)}&password=${encodeURIComponent(password)}`,
+        });
+
+        const data = await response.json();
+
+        if (data.success) {
+          document.getElementById('login-message').textContent = 'Login successful!';
+          document.getElementById('login-message').style.color = 'green'; // Set message color to green
+          setTimeout(function () {
+            window.location.href = 'https://youtu.be/dQw4w9WgXcQ'; // Redirect to the dashboard page on success after 1.5 seconds
+          }, 1500);
+        } else {
+          document.getElementById('login-message').textContent = data.message || 'Incorrect email or password.';
+          document.getElementById('login-message').style.color = 'red'; // Set message color to red
+        }
+      } catch (error) {
+        console.error('Error:', error);
+        document.getElementById('login-message').textContent = 'An error occurred. Please try again later.';
+        document.getElementById('login-message').style.color = 'red'; // Set message color to red
+      }
+    }
+  </script>
+</body>
+
+</html>

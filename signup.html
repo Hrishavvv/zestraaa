@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sign Up</title>
+  <!-- Add Font Awesome CSS link -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body style="font-family: Arial, sans-serif; margin: 0; padding: 0; display: flex; justify-content: center; align-items: center; height: 100vh; background-color: #f2f2f2;">
+  <div style="background-color: #fff; border-radius: 10px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); padding: 20px; width: 300px;">
+    <h2 style="text-align: center; margin-bottom: 20px;">Sign Up</h2>
+    <div id="message" style="color: red; text-align: center;"></div>
+    <form action="signup.php" method="post" style="display: flex; flex-direction: column;">
+      <label for="email" style="margin-top: 10px;">Email</label>
+      <input type="email" id="email" name="email" required style="border: 1px solid #ccc; border-radius: 4px; padding: 10px; margin-top: 5px;">
+      
+      <label for="username" style="margin-top: 10px;">Username</label>
+      <input type="text" id="username" name="username" required style="border: 1px solid #ccc; border-radius: 4px; padding: 10px; margin-top: 5px;">
+      
+      <label for="dob" style="margin-top: 10px;">Date of Birth (dd/mm/yyyy)</label>
+      <input type="date" id="dob" name="dob" required style="border: 1px solid #ccc; border-radius: 4px; padding: 10px; margin-top: 5px;" min="1900-01-01" max="<?php echo date('Y-m-d'); ?>">
+      
+      <label for="password" style="margin-top: 10px;">Password</label>
+      <input type="password" id="password" name="password" required style="border: 1px solid #ccc; border-radius: 4px; padding: 10px; margin-top: 5px;">
+      
+      <label for="confirmPassword" style="margin-top: 10px;">Confirm Password</label>
+      <input type="password" id="confirmPassword" name="confirmPassword" required style="border: 1px solid #ccc; border-radius: 4px; padding: 10px; margin-top: 5px;">
+      
+      <button type="submit" style="margin-top: 20px; background-color: black; color: white; padding: 10px; border: none; border-radius: 4px; cursor: pointer;">Sign Up</button>
+      <p style="text-align: center; margin-top: 15px;">Already have an account? <a href="index.html" style="text-decoration: none; color: black;">Login</a></p>
+    </form>
+  </div>
+  <script>
+    // Show the error message received from PHP
+    document.addEventListener('DOMContentLoaded', function() {
+      const message = new URLSearchParams(window.location.search).get('error');
+      if (message === 'user_exists') {
+        document.getElementById('message').innerText = 'User already exists';
+        document.getElementById('message').style.color = 'red';
+      } else if (message === 'password_mismatch') {
+        document.getElementById('message').innerText = 'Passwords do not match';
+        document.getElementById('message').style.color = 'red';
+      } else if (message === 'dob_invalid') {
+        document.getElementById('message').innerText = 'Invalid date of birth format';
+        document.getElementById('message').style.color = 'red';
+      } else if (message === 'signup_success') {
+        document.getElementById('message').innerText = 'Registration successful, you can now login';
+        document.getElementById('message').style.color = 'green';
+      }
+    });
+  </script>
+</body>
+</html>
